@@ -1,0 +1,12 @@
+{
+  "description": "MCP Servers Configuration",
+  "version": "1.0",
+  "servers": [
+    {
+      "name": "precize",
+      "url": "precize-mcp-url",
+      "auth_token": "precize-mcp-auth-token",
+      "enabled": true
+    }
+  ]
+}
