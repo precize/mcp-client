@@ -89,14 +89,34 @@ adk --version
 
 ## Step 6: Configure Deployment Settings
 
-Update the file `.adk/config.yaml`:
+Update the file with below details`.adk/config.yaml`:
 
 ```yaml
 spec:
   projectId: your-gcp-project-id
-  region: region-to-deploy-adk
-  Model: mcp-client-model
+  region: us-central1
+  displayName: your-agent-display-name
+  agent:
+    model: your-vertexai-model
 ```
+
+- **`projectId`** — your GCP project ID
+- **`region`** — GCP region to deploy the agent
+- **`displayName`** — name shown in the Vertex AI console.
+- **`model`** — your GCP Model ID
+
+
+### Choosing a Model
+
+Use a **Vertex AI Gemini model**. Here are the available options:
+
+| Model | Best For |
+|---|---|
+| `gemini-2.5-pro` | Most capable, complex reasoning and long context |
+| `gemini-2.0-flash` | Best balance of speed and capability (recommended) |
+| `gemini-2.0-flash-lite` | Fastest and most cost-efficient, simple tasks |
+
+> **Note:** All models must be available in your selected region. Check availability at [Vertex AI Model Garden](https://cloud.google.com/vertex-ai/generative-ai/docs/model-garden/available-models).
 
 Save the file after updating.
 
@@ -152,7 +172,7 @@ Deployment usually takes 3–5 minutes.
 After deployment:
 
 1. Open Google Cloud Console
-2. Go to Vertex AI → Agent Engine
+2. Go to Vertex AI → Agent → Deployments
 3. Open your deployed agent
 4. Click Open Playground
 5. Start using with your MCP Agent
