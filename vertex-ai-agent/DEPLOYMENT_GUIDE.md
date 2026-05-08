@@ -20,9 +20,7 @@ Before starting, ensure you have:
 
 Your Google account must have the following IAM roles:
 
-- Vertex AI Agent Builder
-- Vertex AI Agent Executor
-- Service Account User
+- Agent Platform User
 
 ### Check Permissions
 
@@ -47,7 +45,7 @@ If both return versions, continue else install the required dependencies.
 
 ## Step 3: Clone the Project Repository
 
-Pull the project code from Git:
+Clone the project code from Git:
 
 ```bash
 git clone https://github.com/precize/mcp-client.git
@@ -56,7 +54,7 @@ git clone https://github.com/precize/mcp-client.git
 Navigate into the cloned directory:
 
 ```bash
-cd vertex-ai-agent
+cd mcp-client/vertex-ai-agent/
 ```
 
 ## Step 4: Create Virtual Environment
@@ -96,7 +94,7 @@ Update the file `.adk/config.yaml`:
 ```yaml
 spec:
   projectId: your-gcp-project-id
-  region: us-central1
+  region: region-to-deploy-adk
   Model: mcp-client-model
 ```
 
