@@ -17,7 +17,7 @@ load_dotenv()
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
 
 def load_yaml_config(key_path, default=None):
-    """Generic method to load values from .adk/config.yaml
+    """Generic method to load values from config.yaml
 
     Args:
         key_path: dot-separated path (e.g., "spec.agent.model")
@@ -27,8 +27,9 @@ def load_yaml_config(key_path, default=None):
         Value from YAML or default
     """
     config_paths = [
-        Path(__file__).parent.parent / ".adk" / "config.yaml",
-        Path(".adk/config.yaml"),
+        Path(__file__).parent / "config.yaml",  # Runtime config (deployed with code)
+        Path(__file__).parent.parent / ".adk" / "config.yaml",  # Local dev config
+        Path(".adk/config.yaml"),  # Fallback
     ]
 
     for config_path in config_paths:
@@ -40,8 +41,10 @@ def load_yaml_config(key_path, default=None):
                 # Navigate through nested keys
                 value = config
                 for key in key_path.split("."):
-                    value = value.get(key, {}) if isinstance(value, dict) else None
-                    if value is None:
+                    if isinstance(value, dict) and key in value:
+                        value = value[key]
+                    else:
+                        value = None
                         break
 
                 if value is not None:
@@ -50,14 +53,6 @@ def load_yaml_config(key_path, default=None):
                 pass
 
     return default
-
-# Load all configuration from YAML
-project = load_yaml_config("spec.projectId")
-region = load_yaml_config("spec.region", "us-central1")
-MODEL = load_yaml_config("spec.agent.model", "gemini-2.5-flash-lite")
-
-# Initialize Vertex AI
-vertexai.init(project=project, location=region)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -68,6 +63,16 @@ file_handler.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
+
+# Load all configuration from YAML
+project = load_yaml_config("spec.projectId")
+region = load_yaml_config("spec.region")
+MODEL = load_yaml_config("spec.agent.model")
+
+logger.info(f"Configuration - Project: {project}, Region: {region}, Model: {MODEL}")
+
+# Initialize Vertex AI
+vertexai.init(project=project, location=region)
 
 
 def load_mcp_servers_from_config():

@@ -17,5 +17,11 @@ echo "  Project: $PROJECT"
 echo "  Region: $REGION"
 echo ""
 
+# Bundle config into agent package for deployment 
+cp .adk/config.yaml agent/config.yaml
+
 # Deploy
 adk deploy agent_engine agent --project "$PROJECT" --region "$REGION"
+
+# Clean up bundled config after deploy
+rm -f agent/config.yaml
