@@ -107,12 +107,9 @@ spec:
 - **`agent.model`** — Gemini model ID used by the agent.
 - **`agent.region`** — where Gemini model calls are sent. This is separate from the ADK deployment region.
 
-For Gemini 3 models, set:
+For better accuracy, use the latest Gemini model available to your project. 
 
-```yaml
-agent:
-  region: global
-```
+> **Note:** For Gemini 3 models, `agent.region` must be set to `global`.
 
 Example:
 
