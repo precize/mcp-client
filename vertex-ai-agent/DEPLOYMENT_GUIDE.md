@@ -89,7 +89,7 @@ adk --version
 
 ## Step 6: Configure Deployment Settings
 
-Update the file with below details`.adk/config.yaml`:
+Update `.adk/config.yaml`:
 
 ```yaml
 spec:
@@ -97,13 +97,29 @@ spec:
   region: us-central1
   displayName: your-agent-display-name
   agent:
-    model: your-vertexai-model
+    model: gemini-3.1-pro-preview
+    region: global
 ```
 
 - **`projectId`** — your GCP project ID
-- **`region`** — Vertex AI Agent Engine region to deploy the agent. Use `us-central1` unless you need a specific location.
-- **`displayName`** — name shown in the Vertex AI console.
-- **`model`** — your GCP Model ID
+- **`region`** — where the ADK Agent Engine is deployed. This must be a supported Agent Engine region. Use `us-central1` unless you need another supported deployment region.
+- **`displayName`** — display name for the agent in the Vertex AI console.
+- **`agent.model`** — Gemini model ID used by the agent.
+- **`agent.region`** — where Gemini model calls are sent. This is separate from the ADK deployment region.
+
+For Gemini 3 models, set:
+
+```yaml
+agent:
+  region: global
+```
+
+Example:
+
+```text
+ADK Agent Engine runs in: us-central1
+Gemini model calls go to: global
+```
 
 Supported Agent Engine regions:
 
@@ -113,19 +129,6 @@ europe-west1, europe-west2, europe-west3, europe-west4, europe-west6, europe-wes
 asia-east1, asia-east2, asia-northeast1, asia-northeast3, asia-south1, asia-southeast1, asia-southeast2,
 australia-southeast2, northamerica-northeast2, southamerica-east1
 ```
-
-
-### Choosing a Model
-
-Use a **Vertex AI Gemini model**. Here are the available options:
-
-| Model | Best For |
-|---|---|
-| `gemini-2.5-pro` | Most capable, complex reasoning and long context |
-| `gemini-2.0-flash` | Best balance of speed and capability (recommended) |
-| `gemini-2.0-flash-lite` | Fastest and most cost-efficient, simple tasks |
-
-> **Note:** All models must be available in your selected region. Check availability at [Vertex AI Model Garden](https://cloud.google.com/vertex-ai/generative-ai/docs/model-garden/available-models).
 
 Save the file after updating.
 
