@@ -101,9 +101,18 @@ spec:
 ```
 
 - **`projectId`** — your GCP project ID
-- **`region`** — GCP region to deploy the agent
+- **`region`** — Vertex AI Agent Engine region to deploy the agent. Use `us-central1` unless you need a specific location.
 - **`displayName`** — name shown in the Vertex AI console.
 - **`model`** — your GCP Model ID
+
+Supported Agent Engine regions:
+
+```text
+us-central1, us-east4, us-west1,
+europe-west1, europe-west2, europe-west3, europe-west4, europe-west6, europe-west8, europe-southwest1,
+asia-east1, asia-east2, asia-northeast1, asia-northeast3, asia-south1, asia-southeast1, asia-southeast2,
+australia-southeast2, northamerica-northeast2, southamerica-east1
+```
 
 
 ### Choosing a Model
