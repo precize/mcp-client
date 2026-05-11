@@ -54,6 +54,14 @@ def load_yaml_config(key_path, default=None):
 
     return default
 
+
+def load_required_yaml_config(key_path):
+    value = load_yaml_config(key_path)
+    if not isinstance(value, str) or not value:
+        raise ValueError(f"Missing required config value: {key_path}")
+    return value
+
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -65,14 +73,24 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 # Load all configuration from YAML
-project = load_yaml_config("spec.projectId")
-region = load_yaml_config("spec.region")
-MODEL = load_yaml_config("spec.agent.model")
+project = load_required_yaml_config("spec.projectId")
+region = load_required_yaml_config("spec.region")
+MODEL = load_required_yaml_config("spec.agent.model")
+MODEL_LOCATION = load_required_yaml_config("spec.agent.region")
 
-logger.info(f"Configuration - Project: {project}, Region: {region}, Model: {MODEL}")
+os.environ["GOOGLE_CLOUD_PROJECT"] = project
+os.environ["GOOGLE_CLOUD_LOCATION"] = MODEL_LOCATION
 
-# Initialize Vertex AI
-vertexai.init(project=project, location=region)
+logger.info(
+    "Configuration - Project: %s, Agent Engine region: %s, Model location: %s, Model: %s",
+    project,
+    region,
+    MODEL_LOCATION,
+    MODEL,
+)
+
+# Initialize Vertex AI for Gemini model calls.
+vertexai.init(project=project, location=MODEL_LOCATION)
 
 
 def load_mcp_servers_from_config():

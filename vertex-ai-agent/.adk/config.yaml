@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: AgentEngineConfig
-metadata:
-  name: mcp-agent
 spec:
-  displayName: mcp-agent
+  displayName: Your-MCP-Display-Name
   description: "MCP Agent - Connects to MCP Server"
   region: your-region
   projectId: your-project-id
@@ -13,8 +11,8 @@ spec:
     object: app
 
   agent:
-    model: mcp-client-model
-    name: mcp_agent
+    model: gemini-3.1-pro-preview
+    region: global
 
   build:
     runtimeVersion: python311

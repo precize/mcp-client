@@ -2,7 +2,8 @@
 
 # Extract values from .adk/config.yaml
 PROJECT=$(grep "projectId:" .adk/config.yaml | awk '{print $2}')
-REGION=$(grep "region:" .adk/config.yaml | awk '{print $2}')
+REGION=$(grep -m1 "^  region:" .adk/config.yaml | awk '{print $2}')
+MODEL_REGION=$(grep -m1 "^    region:" .adk/config.yaml | awk '{print $2}')
 DISPLAY_NAME=$(grep "displayName:" .adk/config.yaml | awk '{print $2}')
 
 if [ -z "$PROJECT" ] || [ -z "$REGION" ]; then
@@ -15,7 +16,8 @@ fi
 
 echo "Deploying MCP Agent..."
 echo "  Project:      $PROJECT"
-echo "  Region:       $REGION"
+echo "  ADK Region:   $REGION"
+echo "  Model Region: $MODEL_REGION"
 echo "  Display Name: $DISPLAY_NAME"
 echo ""
 
